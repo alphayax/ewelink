@@ -17,10 +17,15 @@ func newJSONResponseDecoder() responseDecoder {
 	return &jsonResponseDecoder{}
 }
 
+// DebugResponse enable or disable the trace of the response in stdout
+var DebugResponse = false
+
 func (j jsonResponseDecoder) decode(subject Response, response io.ReadCloser, status int) (Response, error) {
 	responseAsString := tryReadCloserToString(response)
 
-	fmt.Println("Response " + responseAsString)
+	if DebugResponse {
+		fmt.Println("Response " + responseAsString)
+	}
 
 	// Decode the response into the expected response type
 	decoded, err := subject.Decode(ioutil.NopCloser(strings.NewReader(responseAsString)))
