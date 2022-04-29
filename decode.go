@@ -50,7 +50,7 @@ func toAPIError(envelope Envelope) error {
 		return toHTTPResponseAPIError(resp)
 	}
 
-	return &apiError{Code: envelope.Code(), Message: envelope.Cause()}
+	return &ApiError{Code: envelope.Code(), Message: envelope.Cause()}
 }
 
 func toHTTPResponseAPIError(response *httpResponse) error {
@@ -58,18 +58,18 @@ func toHTTPResponseAPIError(response *httpResponse) error {
 	case wrongRegion:
 		return &wrongRegionError{
 			Region:   response.Region,
-			apiError: apiError{Code: response.Code(), Message: response.Message, Cause: APIErrorCauses.WrongRegion},
+			ApiError: ApiError{Code: response.Code(), Message: response.Message, Cause: APIErrorCauses.WrongRegion},
 		}
 	case authenticationError:
-		return &apiError{Code: response.Code(), Message: response.Message, Cause: APIErrorCauses.AuthenticationError}
+		return &ApiError{Code: response.Code(), Message: response.Message, Cause: APIErrorCauses.AuthenticationError}
 	case invalidRequest:
 	case notAcceptable:
-		return &apiError{Code: response.Code(), Message: response.Message, Cause: APIErrorCauses.InvalidRequest}
+		return &ApiError{Code: response.Code(), Message: response.Message, Cause: APIErrorCauses.InvalidRequest}
 	case internalError:
-		return &apiError{Code: response.Code(), Message: response.Message, Cause: APIErrorCauses.InternalError}
+		return &ApiError{Code: response.Code(), Message: response.Message, Cause: APIErrorCauses.InternalError}
 	}
 
-	return &apiError{Code: response.Code(), Message: response.Cause(), Cause: APIErrorCauses.UnknownError}
+	return &ApiError{Code: response.Code(), Message: response.Cause(), Cause: APIErrorCauses.UnknownError}
 }
 
 // nolint:deadcode,unused

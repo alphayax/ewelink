@@ -29,17 +29,17 @@ var APIErrorCauses = struct {
 	InternalError:       "Internal server error",
 }
 
-type apiError struct {
+type ApiError struct {
 	Code    int
 	Message string
 	Cause   APIErrorCause
 }
 
 type wrongRegionError struct {
-	apiError
+	ApiError
 	Region string
 }
 
-func (r apiError) Error() string {
+func (r ApiError) Error() string {
 	return fmt.Sprintf("%#v", r)
 }
